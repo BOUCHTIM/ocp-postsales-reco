@@ -1,0 +1,238 @@
+{
+ "_commentaire": "Surcharge optionnelle de reconcile.py. Alias de colonnes (insensibles à la casse), feuille SAP, codes de type, familles de réclamations (préfixe d'onglets + correspondance type de réclamation → types de document SAP ; '*' = n'importe lequel).",
+ "sap_sheet": "Feuil1",
+ "tracker_sheet_prefix": [
+  "DEM"
+ ],
+ "sap_type_debit": "ZDS",
+ "sap_type_credit": "ZDP",
+ "tracker_columns": {
+  "VESSEL": [
+   "VESSEL",
+   "NAVIRE",
+   "VESSEL NAME"
+  ],
+  "B/L DATE": [
+   "B/L DATE",
+   "BL DATE",
+   "DATE BL"
+  ],
+  "FINAL AMOUNT": [
+   "FINAL AMOUNT",
+   "MONTANT FINAL",
+   "AMOUNT USD"
+  ],
+  "Claims Type": [
+   "CLAIMS TYPE",
+   "TYPE"
+  ],
+  "DN/CN Number": [
+   "DN/CN NUMBER",
+   "DN/CN NUMBER/STATUS",
+   "N° DN/CN"
+  ],
+  "PAYMENT STATUS": [
+   "PAYMENT STATUS",
+   "STATUT"
+  ]
+ },
+ "sap_columns": {
+  "Numéro Facture": [
+   "NUMÉRO FACTURE",
+   "BILLING DOCUMENT"
+  ],
+  "Navire": [
+   "NAVIRE",
+   "VESSEL"
+  ],
+  "Date BL": [
+   "DATE BL",
+   "BL DATE"
+  ],
+  "Ord.Type": [
+   "ORD.TYPE",
+   "ORDER TYPE"
+  ],
+  "Montant Facturée": [
+   "MONTANT FACTURÉE",
+   "NET VALUE"
+  ],
+  "Solde Client": [
+   "SOLDE CLIENT",
+   "OPEN AMOUNT"
+  ]
+ },
+ "claims_families": {
+  "demdesp": {
+   "label": "demurrage / despatch",
+   "sheet_prefix": [
+    "DEM"
+   ],
+   "map": {
+    "DEMURRAGES": [
+     "ZDS"
+    ],
+    "DESPATCH": [
+     "ZDP"
+    ]
+   }
+  },
+  "priceadj": {
+   "label": "remises, ajustements de prix et réclamations diverses",
+   "sheet_prefix": [
+    "PRICE ADJ",
+    "DISCOUNT",
+    "REMISE",
+    "CLAIM"
+   ],
+   "map": {
+    "*": [
+     "*"
+    ]
+   }
+  }
+ },
+ "_commentaire_modules": "Alias optionnels pour les modules o2c / aging / lc / claims_register / laytime : {colonne canonique: [noms possibles dans vos fichiers]}. Les noms canoniques sont ceux des modèles assets/modeles/*.xlsx.",
+ "orders": {
+  "N° commande": [
+   "SALES DOCUMENT",
+   "N° CDE"
+  ],
+  "Client": [
+   "SOLD-TO PARTY",
+   "NOM CLIENT"
+  ],
+  "Quantité commandée": [
+   "ORDER QUANTITY"
+  ],
+  "Prix unitaire": [
+   "NET PRICE"
+  ]
+ },
+ "deliveries": {
+  "N° livraison": [
+   "DELIVERY",
+   "OUTBOUND DELIVERY"
+  ],
+  "Navire": [
+   "VESSEL"
+  ],
+  "Date BL": [
+   "ACTUAL GI DATE",
+   "B/L DATE"
+  ],
+  "Quantité livrée": [
+   "DELIVERY QUANTITY"
+  ]
+ },
+ "invoices": {
+  "N° facture": [
+   "BILLING DOCUMENT"
+  ],
+  "Montant": [
+   "NET VALUE"
+  ],
+  "Échéance": [
+   "NET DUE DATE"
+  ],
+  "Date facture": [
+   "BILLING DATE"
+  ]
+ },
+ "payments": {
+  "N° facture": [
+   "REFERENCE",
+   "INVOICE REFERENCE"
+  ],
+  "Montant réglé": [
+   "AMOUNT PAID",
+   "CLEARED AMOUNT"
+  ],
+  "Date règlement": [
+   "CLEARING DATE"
+  ],
+  "Solde": [
+   "OPEN AMOUNT"
+  ]
+ },
+ "open": {
+  "Client": [
+   "CUSTOMER",
+   "NAME 1"
+  ],
+  "N° document": [
+   "DOCUMENT NUMBER",
+   "REFERENCE"
+  ],
+  "Échéance": [
+   "NET DUE DATE",
+   "DUE DATE"
+  ],
+  "Montant": [
+   "AMOUNT IN LOCAL CURRENCY",
+   "OPEN AMOUNT"
+  ]
+ },
+ "sales": {
+  "Mois": [
+   "MONTH",
+   "PERIOD"
+  ],
+  "Montant": [
+   "REVENUE",
+   "CA"
+  ]
+ },
+ "lc": {
+  "N° LC": [
+   "LC NUMBER",
+   "L/C NO"
+  ],
+  "Date d'expiration": [
+   "EXPIRY DATE",
+   "VALIDITY"
+  ],
+  "Date limite d'expédition": [
+   "LATEST SHIPMENT DATE"
+  ],
+  "Date présentation documents": [
+   "DOCS PRESENTED",
+   "PRESENTATION DATE"
+  ]
+ },
+ "claims": {
+  "N° réclamation": [
+   "CLAIM NO",
+   "CLAIM ID"
+  ],
+  "Date réception": [
+   "RECEIVED DATE",
+   "DATE OPENED"
+  ],
+  "Date clôture": [
+   "CLOSED DATE",
+   "SETTLED DATE"
+  ],
+  "Gestionnaire": [
+   "OWNER",
+   "HANDLER"
+  ]
+ },
+ "calls": {
+  "Navire": [
+   "VESSEL"
+  ],
+  "Cadence (t/jour)": [
+   "LOADING RATE",
+   "DISCHARGE RATE"
+  ],
+  "Taux demurrage (USD/jour)": [
+   "DEM RATE",
+   "DEMURRAGE RATE"
+  ],
+  "Montant payé/réclamé": [
+   "AMOUNT CLAIMED",
+   "FINAL AMOUNT"
+  ]
+ }
+}

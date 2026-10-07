@@ -1,0 +1,156 @@
+{
+ "skill_name": "surestaries-reco",
+ "evals": [
+  {
+   "id": 0,
+   "prompt": "Voici trois fichiers Excel dans /Users/mac/.claude/skills/surestaries-reco-workspace/inputs/real/ : 'EXPORT Base de calcul _ZDS ZDP all.xlsx' (extraction SAP des commandes ZDS/ZDP), 'Updated DEM DESP Discount Situation 2025 - 2026 - CTD - 02.10.2026.xlsx' et 'Updated  DEM DESP Discount Situation 2025 - 2026 - APAC Custo - 02.10.2026.xlsx' (fichiers de suivi du post-sales). Instruction du demandeur : « données excel / on commence à partir de 2024 / l'indicateur majeur c'est que les demurrages payés dans la facture de fret finale à l'armateur puissent être refacturés sous forme de débit note ou crédit note annexée à la vente du produit. La clé de connexion des fichiers doit être le nom du navire et la date BL (les deux). » Produis un classeur Excel de rapprochement et un fichier resume.md avec les chiffres clés (nombre de clés, montant suivi, montant refacturé, % refacturé, % encaissé, nombre de clés sans document SAP) et les limites de l'exercice.",
+   "expected_output": "Classeur xlsx avec 238 clés 2024+, 6 116 166 USD suivis, 2 078 028 USD refacturés (34 %), 62 % encaissés, 182 clés sans doc SAP ; resume.md signalant export SAP filtré et absence des factures de fret.",
+   "files": [
+    "/Users/mac/.claude/skills/surestaries-reco-workspace/inputs/real/EXPORT Base de calcul _ZDS ZDP all.xlsx",
+    "/Users/mac/.claude/skills/surestaries-reco-workspace/inputs/real/Updated DEM DESP Discount Situation 2025 - 2026 - CTD - 02.10.2026.xlsx",
+    "/Users/mac/.claude/skills/surestaries-reco-workspace/inputs/real/Updated  DEM DESP Discount Situation 2025 - 2026 - APAC Custo - 02.10.2026.xlsx"
+   ],
+   "assertions": [
+    {
+     "text": "Un classeur .xlsx de rapprochement est produit",
+     "regex": "__XLSX__"
+    },
+    {
+     "text": "238 clés navire+BL (ou 246 lignes) dans le périmètre 2024+ sont annoncées",
+     "regex": "\\b(238|246)\\b"
+    },
+    {
+     "text": "Montant suivi ≈ 6,12 MUSD (6 116 166 USD)",
+     "regex": "6[  ,.]?116[  ,.]?166|6[,.]12\\s*M"
+    },
+    {
+     "text": "Montant refacturé ≈ 2,08 MUSD ou taux ≈ 34 %",
+     "regex": "2[  ,.]?078[  ,.]?028|2[,.]08\\s*M|\\b34([,.]\\d)?\\s?%"
+    },
+    {
+     "text": "Taux d'encaissement ≈ 62 % du refacturé",
+     "regex": "\\b62([,.]\\d)?\\s?%"
+    },
+    {
+     "text": "≈ 182 clés sans document SAP annoncées",
+     "regex": "\\b18[1-3]\\b"
+    },
+    {
+     "text": "Le résumé signale que l'export SAP paraît filtré / incomplet (n° DN cités absents)",
+     "regex": "filtr|incompl|absent|manqu"
+    },
+    {
+     "text": "Le résumé signale l'absence des paiements à l'armateur (factures de fret) dans les fichiers",
+     "regex": "armateur|fret"
+    },
+    {
+     "text": "Le résumé distingue 'non démarré' (NOT YET STARTED) des 'payé/en cours' sans document SAP",
+     "regex": "NOT YET STARTED|non démarr|pas encore"
+    }
+   ]
+  },
+  {
+   "id": 1,
+   "prompt": "Un client m'envoie dans /Users/mac/.claude/skills/surestaries-reco-workspace/inputs/synth/ un tracker de surestaries ('Tracker demurrage 2024-2026.xlsx', onglets DEM-DESP 2024-2025 et DEM-DESP 2025-2026, colonnes Vessel name / BL date / Claim type / Amount USD / DN/CN / Status / Customer), l'export SAP des débit et crédit notes ('SAP export ZDS ZDP.xlsx', colonnes Billing document / Order type ZDS ou ZDP / Vessel / BL date / Net value / Open amount / Created on / Due date / Clearing date) et les factures de fret armateur ('factures_fret.xlsx', montant de demurrage réellement payé par voyage). Clé : navire + date BL, périmètre BL à partir de 2024. Je veux : (1) un classeur Excel qui rapproche les trois sources voyage par voyage, (2) un fichier resume.md qui classe chaque voyage par type de fuite (soldé, refacturé non encaissé, écart de montant, réclamé sans document SAP, non démarré récent, non démarré ancien > 180 jours) avec le montant récupérable par catégorie, et qui compare le payé à l'armateur au refacturé.",
+   "expected_output": "Classeur xlsx : 12 clés 2024+ (NU LEGACY 2023 exclu), 165 700,5 USD refacturés sur 211 300,5 suivis ; typologies : 6 soldés, 2 refacturés non encaissés (72 000), 1 écart (IOTA BREEZE 3 000), 1 réclamé sans doc (KAPPA SUN 27 000), 1 non démarré récent (LAMBDA MOON), 1 non démarré > 180 j (MU HORIZON) ; OMEGA ROVER = doc SAP non suivi ; fret payé 196 200,5 rapproché par voyage.",
+   "files": [
+    "/Users/mac/.claude/skills/surestaries-reco-workspace/inputs/synth/Tracker demurrage 2024-2026.xlsx",
+    "/Users/mac/.claude/skills/surestaries-reco-workspace/inputs/synth/SAP export ZDS ZDP.xlsx",
+    "/Users/mac/.claude/skills/surestaries-reco-workspace/inputs/synth/factures_fret.xlsx"
+   ],
+   "assertions": [
+    {
+     "text": "Un classeur .xlsx est produit",
+     "regex": "__XLSX__"
+    },
+    {
+     "text": "12 voyages dans le périmètre 2024+ (NU LEGACY 2023 exclu)",
+     "regex": "\\b12\\b"
+    },
+    {
+     "text": "Refacturé non encaissé = 72 000 USD (ETA PRIDE + THETA SKY)",
+     "regex": "72[  ,.]?000"
+    },
+    {
+     "text": "IOTA BREEZE identifié comme écart de montant de 3 000 USD",
+     "regex": "IOTA[\\s\\S]{0,200}3[  ,.]?000|3[  ,.]?000[\\s\\S]{0,200}IOTA"
+    },
+    {
+     "text": "KAPPA SUN classé 'réclamé / payé sans document SAP'",
+     "regex": "KAPPA SUN[\\s\\S]{0,300}(sans|absen|aucun|no )"
+    },
+    {
+     "text": "MU HORIZON classé non démarré ancien (> 180 jours) malgré l'espace final dans son nom",
+     "regex": "MU HORIZON[\\s\\S]{0,300}(180|ancien|prescription)"
+    },
+    {
+     "text": "LAMBDA MOON classé non démarré récent",
+     "regex": "LAMBDA MOON[\\s\\S]{0,300}(récent|recent|en cours|<\\s*180|dans le délai)"
+    },
+    {
+     "text": "Fret payé à l'armateur total 196 200,5 USD rapproché et comparé au refacturé",
+     "regex": "196[  ,.]?200"
+    },
+    {
+     "text": "OMEGA ROVER identifié comme document SAP sans ligne tracker",
+     "regex": "OMEGA ROVER"
+    },
+    {
+     "text": "Montant refacturé total 165 700,5 USD",
+     "regex": "165[  ,.]?70[01]"
+    }
+   ]
+  },
+  {
+   "id": 2,
+   "prompt": "J'ai déjà un classeur de rapprochement surestaries : /Users/mac/.claude/skills/surestaries-reco-workspace/inputs/real/Rapprochement DEM-DESP Tracker vs SAP ZDS-ZDP 2024-2026.xlsx (onglet Rapprochement : une ligne par clé navire + BL avec montant tracker, documents SAP, encaissé, solde, statut) et l'export SAP d'origine /Users/mac/.claude/skills/surestaries-reco-workspace/inputs/real/EXPORT Base de calcul _ZDS ZDP all.xlsx. Mon chef veut une note d'expertise : où se perd l'argent, combien est réellement récupérable, quels délais entre BL, émission de la DN/CN et encaissement, quel encours est ancien, et un plan d'action chiffré. Produis la note en .docx (6 pages max) et un resume.md avec le tableau des typologies et des montants.",
+   "expected_output": "Note docx ≤ 6 pages + resume.md : typologies T0–T5 avec 749 899 USD récupérable certain, 1 174 584 à confirmer, 2 352 390 à risque (> 180 j), délai médian BL→DN ~195 j, DN→règlement ~93 j, encours 100 % > 90 j, plan d'action chiffré, limite maillon armateur.",
+   "files": [
+    "/Users/mac/.claude/skills/surestaries-reco-workspace/inputs/real/Rapprochement DEM-DESP Tracker vs SAP ZDS-ZDP 2024-2026.xlsx",
+    "/Users/mac/.claude/skills/surestaries-reco-workspace/inputs/real/EXPORT Base de calcul _ZDS ZDP all.xlsx"
+   ],
+   "assertions": [
+    {
+     "text": "Une note .docx est produite",
+     "regex": "__DOCX__"
+    },
+    {
+     "text": "La note tient en ≤ 6 pages (≈ < 3 500 mots)",
+     "regex": "__DOCX_SHORT__"
+    },
+    {
+     "text": "Récupérable certain ≈ 750 kUSD (refacturé non encaissé, 18-20 clés)",
+     "regex": "749[  ,.]?899|750[  ,.]?\\d{3}|0[,.]75\\s*M|\\b18\\b|\\b20\\b"
+    },
+    {
+     "text": "Réclamé sans document SAP ≈ 1,17 MUSD / 75 clés, présenté comme 'à confirmer' (export filtré)",
+     "regex": "1[  ,.]?174[  ,.]?584|1[,.]17\\s*M|\\b75\\b"
+    },
+    {
+     "text": "Non démarré > 180 jours ≈ 2,35 MUSD / 80 clés signalé comme risque",
+     "regex": "2[  ,.]?352[  ,.]?390|2[,.]35\\s*M|\\b80\\b"
+    },
+    {
+     "text": "Délai médian BL → émission DN/CN ≈ 195 jours",
+     "regex": "\\b19[0-9]\\s*(j|jours|days)"
+    },
+    {
+     "text": "Délai médian DN/CN → règlement ≈ 93 jours",
+     "regex": "\\b9[0-6]\\s*(j|jours|days)"
+    },
+    {
+     "text": "Encours ouvert qualifié d'ancien (> 90 j ou > 180 j)",
+     "regex": ">\\s*(90|180)|plus de (90|180)"
+    },
+    {
+     "text": "Plan d'action chiffré présent (actions + montants)",
+     "regex": "[Pp]lan d'action[\\s\\S]{0,2000}\\d{2,3}[  ,.]?\\d{3}"
+    },
+    {
+     "text": "Limite explicite : paiements à l'armateur non mesurés",
+     "regex": "armateur"
+    }
+   ]
+  }
+ ]
+}
